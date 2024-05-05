@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://djiefmux54unp"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_u2nut"]
+[ext_resource type="PackedScene" uid="uid://dl80idphcmvtu" path="res://vertex.tscn" id="2_ovrik"]
+[ext_resource type="PackedScene" uid="uid://qm20ecr5xe00" path="res://edge.tscn" id="3_ackjy"]
+[ext_resource type="Script" path="res://camera_animation.gd" id="4_qgknl"]
+
+[node name="Main" type="Node2D" node_paths=PackedStringArray("holder")]
+script = ExtResource("1_u2nut")
+vertex_prefab = ExtResource("2_ovrik")
+edge_prefab = ExtResource("3_ackjy")
+size = Vector2i(10, 10)
+holder = NodePath("LinesAndVertices")
+
+[node name="LinesAndVertices" type="Node2D" parent="."]
+
+[node name="small border" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(0, 0, 525, 0, 525, 525)
+width = 1.0
+
+[node name="big border" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(0, 0, 700, 0, 700, 700)
+width = 1.0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+zoom = Vector2(1.23, 1.23)
+script = ExtResource("4_qgknl")
+start_zoom = Vector2(1.23, 1.23)
+end_zoom = Vector2(0.925, 0.925)

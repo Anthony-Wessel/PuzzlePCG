@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://dl80idphcmvtu"]
+
+[ext_resource type="Texture2D" uid="uid://cwd82xd4ehuy2" path="res://dot.png" id="1_5lplb"]
+[ext_resource type="Script" path="res://vertex_movement.gd" id="2_jwxi3"]
+
+[node name="Vertex" type="Sprite2D"]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_5lplb")
+script = ExtResource("2_jwxi3")
