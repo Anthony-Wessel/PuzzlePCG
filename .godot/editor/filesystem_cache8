@@ -1,10 +1,11 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1714944043
+::res://::1715194236
 camera_animation.gd::GDScript::-1::1714939711::0::1::::<>Camera2D<>::
 dot.png::CompressedTexture2D::6325242151876557683::1714939637::1714939637::1::::<><>::
-edge.tscn::PackedScene::1149478248905963571::1714939711::0::1::::<><>::
+edge.tscn::PackedScene::1149478248905963571::1714944926::0::1::::<><>::
 icon.svg::CompressedTexture2D::7268043962357493970::1714784731::1714784741::1::::<><>::
-main.gd::GDScript::-1::1714939544::0::1::::<>Node2D<>::
-main.tscn::PackedScene::7807729125057221441::1714939711::0::1::::<><>::res://main.gd<>uid://dl80idphcmvtu::::res://vertex.tscn<>uid://qm20ecr5xe00::::res://edge.tscn<>res://camera_animation.gd
-vertex.tscn::PackedScene::8000996189215366670::1714939711::0::1::::<><>::uid://cwd82xd4ehuy2::::res://dot.png<>res://vertex_movement.gd
+main.gd::GDScript::-1::1714944720::0::1::::<>Node2D<>::
+main.tscn::PackedScene::7807729125057221441::1714944926::0::1::::<><>::res://main.gd<>uid://dl80idphcmvtu::::res://vertex.tscn<>uid://qm20ecr5xe00::::res://edge.tscn<>res://camera_animation.gd
+README.md::TextFile::-1::1714945800::0::1::::<><>::
+vertex.tscn::PackedScene::8000996189215366670::1714944926::0::1::::<><>::uid://cwd82xd4ehuy2::::res://dot.png<>res://vertex_movement.gd
 vertex_movement.gd::GDScript::-1::1714855580::0::1::::<>Sprite2D<>::

@@ -14,8 +14,8 @@ var pieces = []
 var rng = RandomNumberGenerator.new()
 signal step_completed
 
-func _ready():
-	await get_tree().create_timer(3.0).timeout
+func _ready():	
+	#await get_tree().create_timer(3.0).timeout
 	
 	generate_vertices()
 	await step_completed
@@ -40,7 +40,22 @@ func _ready():
 	
 	remove_child(holder)
 	holder.queue_free()
-	move_pieces()
+	#move_pieces()
+	
+	var triangulated_pieces = []
+	for piece in pieces:
+		triangulated_pieces.append(piece.create_triangulated_piece())
+		piece.node.queue_free()
+	
+	#triangulated_pieces.append(pieces[0].create_triangulated_piece())
+	#for i in triangulated_pieces.size():
+	#	for tri in triangulated_pieces[i].triangles:
+	#		var new_tri : Line2D = edge_prefab.instantiate()
+	#		add_child(new_tri)
+	#		new_tri.add_point(triangulated_pieces[i].get_point(tri[0]))
+	#		new_tri.add_point(triangulated_pieces[i].get_point(tri[1]))
+	#		new_tri.add_point(triangulated_pieces[i].get_point(tri[2]))
+	#		new_tri.add_point(triangulated_pieces[i].get_point(tri[0]))
 
 
 func generate_vertices():
@@ -246,3 +261,77 @@ class Piece:
 			for p in node.points.size():
 				node.set_point_position(p, node.get_point_position(p) + pos*0.2)
 			await node.get_tree().create_timer(0.01).timeout
+	
+	func create_triangulated_piece():
+		var points = node.points
+		var piece_pos := Vector2(-1,-1)
+		for point in points:
+			if piece_pos.x == -1:
+				piece_pos = point
+			else:
+				if point.x < piece_pos.x:
+					piece_pos.x = point.x
+				if point.y < piece_pos.y:
+					piece_pos.y = point.y
+		
+		for i in points.size():
+			points[i] = points[i] - piece_pos
+		
+		points.remove_at(points.size()-1)
+		return TriangulatedPiece.new(piece_pos, points)
+
+
+class TriangulatedPiece:
+	var position : Vector2
+	var points : Array[Vector2]
+	var triangles : Array[Vector3]
+	
+	func _init(pos : Vector2, point_list :  Array[Vector2]):
+		for point in point_list:
+			points.append(point)
+		position = pos
+		
+		triangulate()
+	
+	func triangulate():
+		var vertices = []
+		for point in points:
+			vertices.append(point)
+		
+		for loops in vertices.size()-3:
+			for i in vertices.size():
+				var p0 : Vector2 = vertices[i]
+				var p1 : Vector2 = vertices[(i+1) % vertices.size()]
+				var p2 : Vector2 = vertices[i-1]
+				
+				# check angle
+				var diff1 : Vector2 = p1-p0
+				var diff2 : Vector2 = p2-p0
+				if diff1.angle_to(diff2) * 180/PI < 0:
+					continue
+				
+				# check contents
+				var area = 0.5 * (-p1.y*p2.x + p0.y*(-p1.x + p2.x) + p0.x*(p1.y - p2.y) + p1.x*p2.y)
+				var contains_point = false
+				for p in vertices:
+					if p == p0 or p == p1 or p == p2:
+						continue
+					var s = 1/(2*area) * (p0.y*p2.x - p0.x*p2.y + (p2.y - p0.y)*p.x + (p0.x - p2.x)*p.y)
+					var t = 1/(2*area) * (p0.x*p1.y - p0.y*p1.x + (p0.y - p1.y)*p.x + (p1.x - p0.x)*p.y)
+					if s>=0 and t>=0 and s+t<=1:
+						contains_point = true
+						break
+				
+				if !contains_point:
+					triangles.append(Vector3(get_index(p0), get_index(p1), get_index(p2)))
+					vertices.erase(p0)
+					break
+		triangles.append(Vector3(get_index(vertices[0]), get_index(vertices[1]), get_index(vertices[2])))
+	
+	func get_index(point : Vector2):
+		for i in points.size():
+			if points[i] == point:
+				return i
+	
+	func get_point(index : int):
+		return points[index]
