@@ -1,9 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://djiefmux54unp"]
+[gd_scene load_steps=8 format=3 uid="uid://djiefmux54unp"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_u2nut"]
 [ext_resource type="PackedScene" uid="uid://dl80idphcmvtu" path="res://vertex.tscn" id="2_ovrik"]
 [ext_resource type="PackedScene" uid="uid://qm20ecr5xe00" path="res://edge.tscn" id="3_ackjy"]
 [ext_resource type="Script" path="res://camera_animation.gd" id="4_qgknl"]
+[ext_resource type="Script" path="res://generate_texture.gd" id="5_4xp31"]
+
+[sub_resource type="Gradient" id="Gradient_62h6l"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_5ga3s"]
+gradient = SubResource("Gradient_62h6l")
+width = 100
+height = 100
 
 [node name="Main" type="Node2D" node_paths=PackedStringArray("holder")]
 script = ExtResource("1_u2nut")
@@ -30,3 +38,8 @@ zoom = Vector2(1.23, 1.23)
 script = ExtResource("4_qgknl")
 start_zoom = Vector2(1.23, 1.23)
 end_zoom = Vector2(0.925, 0.925)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(134, 115)
+texture = SubResource("GradientTexture2D_5ga3s")
+script = ExtResource("5_4xp31")

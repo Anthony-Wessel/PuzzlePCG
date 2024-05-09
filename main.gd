@@ -47,6 +47,31 @@ func _ready():
 		triangulated_pieces.append(piece.create_triangulated_piece())
 		piece.node.queue_free()
 	
+	var x :TriangulatedPiece = triangulated_pieces[0]
+	var triangle_count = x.triangles.size()
+	var points : Array[Vector2]
+	for triangle in x.triangles:
+		points.append(x.get_point(triangle[0]))
+		points.append(x.get_point(triangle[1]))
+		points.append(x.get_point(triangle[2]))
+	
+	print(triangle_count, ", ", points.size())
+	
+	var mins = Vector2(1000,1000)
+	var maxs = Vector2(-1000, -1000)
+	for point in points:
+		if point.x < mins.x:
+			mins.x = point.x
+		if point.y < mins.y:
+			mins.y = point.y
+		if point.x > maxs.x:
+			maxs.x = point.x
+		if point.y > maxs.y:
+			maxs.y = point.y
+	print(mins, ", ", maxs)
+	
+	GenerateTexture.instance.generate_mask(triangle_count, points)
+	
 	#triangulated_pieces.append(pieces[0].create_triangulated_piece())
 	#for i in triangulated_pieces.size():
 	#	for tri in triangulated_pieces[i].triangles:

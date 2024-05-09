@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://tv0p65dsyi0n"
+path="res://.godot/imported/mask_generator.glsl-c80c6e1c1d402399ed0422a837b4aa0b.res"
+
+[deps]
+
+source_file="res://mask_generator.glsl"
+dest_files=["res://.godot/imported/mask_generator.glsl-c80c6e1c1d402399ed0422a837b4aa0b.res"]
+
+[params]
+

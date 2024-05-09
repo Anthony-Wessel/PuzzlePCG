@@ -1,4 +1,5 @@
 res://main.tscn
+res://generate_texture.gd
 res://vertex.tscn
 res://edge.tscn
 res://main.gd
