@@ -18,3 +18,14 @@
 
 I used the ear clipping method for triangulating the concave outlines.
 ![Triangulation Image](/.git_resources/triangulated_piece.png)
+
+## Flaws
+
+Connector Resolution
+- The connectors don't use enough vertices to appear perfectly round
+- Using more vertices would make the shape smoother, but would make the computation take longer
+- I decided not to increase the resolution because the pieces appear relatively small on screen and as such the low resolution is not obvious
+
+Gaps
+- The mask textures are a bit too small, leaving gaps between pieces in the final product
+- This problem may also be worsened due to the low-resolution mask textures
