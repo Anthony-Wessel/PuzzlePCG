@@ -2,6 +2,7 @@ extends Node2D
 
 @export var vertex_prefab : PackedScene
 @export var edge_prefab : PackedScene
+@export var completed_piece_prefab : PackedScene
 
 @export var size : Vector2i
 
@@ -42,45 +43,42 @@ func _ready():
 	holder.queue_free()
 	#move_pieces()
 	
+	""" Show 1 large triangulated piece
+	for piece in pieces:
+		piece.node.queue_free()
+	
+	var t = pieces[17].create_triangulated_piece()
+	for tri in t.triangles:
+		var n = edge_prefab.instantiate()
+		add_child(n)
+		n.add_point(t.get_point(tri[0])*10 + Vector2(20,20))
+		n.add_point(t.get_point(tri[1])*10 + Vector2(20,20))
+		n.add_point(t.get_point(tri[2])*10 + Vector2(20,20))
+		n.add_point(t.get_point(tri[0])*10 + Vector2(20,20))
+	"""
+	
+	
 	var triangulated_pieces = []
 	for piece in pieces:
 		triangulated_pieces.append(piece.create_triangulated_piece())
-		piece.node.queue_free()
+		#piece.node.queue_free()
 	
-	var x :TriangulatedPiece = triangulated_pieces[0]
-	var triangle_count = x.triangles.size()
-	var points : Array[Vector2]
-	for triangle in x.triangles:
-		points.append(x.get_point(triangle[0]))
-		points.append(x.get_point(triangle[1]))
-		points.append(x.get_point(triangle[2]))
-	
-	print(triangle_count, ", ", points.size())
-	
-	var mins = Vector2(1000,1000)
-	var maxs = Vector2(-1000, -1000)
-	for point in points:
-		if point.x < mins.x:
-			mins.x = point.x
-		if point.y < mins.y:
-			mins.y = point.y
-		if point.x > maxs.x:
-			maxs.x = point.x
-		if point.y > maxs.y:
-			maxs.y = point.y
-	print(mins, ", ", maxs)
-	
-	GenerateTexture.instance.generate_mask(triangle_count, points)
-	
-	#triangulated_pieces.append(pieces[0].create_triangulated_piece())
-	#for i in triangulated_pieces.size():
-	#	for tri in triangulated_pieces[i].triangles:
-	#		var new_tri : Line2D = edge_prefab.instantiate()
-	#		add_child(new_tri)
-	#		new_tri.add_point(triangulated_pieces[i].get_point(tri[0]))
-	#		new_tri.add_point(triangulated_pieces[i].get_point(tri[1]))
-	#		new_tri.add_point(triangulated_pieces[i].get_point(tri[2]))
-	#		new_tri.add_point(triangulated_pieces[i].get_point(tri[0]))
+	for x in triangulated_pieces:
+		var triangle_count = x.triangles.size()
+		var points : Array[Vector2]
+		for triangle in x.triangles:
+			points.append(x.get_point(triangle[0]))
+			points.append(x.get_point(triangle[1]))
+			points.append(x.get_point(triangle[2]))
+		
+		var mask = GenerateTexture.instance.generate_mask(triangle_count, points)
+		
+		var piece0 = completed_piece_prefab.instantiate()
+		add_child(piece0)
+		piece0.position = x.position + Vector2(50,50)
+		piece0.texture = mask
+		(piece0.get_child(0) as Sprite2D).region_rect.position = x.position - Vector2(10,10)
+		await get_tree().create_timer(0.1).timeout
 
 
 func generate_vertices():
